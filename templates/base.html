@@ -1,0 +1,41 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    
+<head>
+	<title>
+        {% block headtitle %}
+       
+        {% endblock %}
+
+    </title>
+	
+
+</head>
+<body>
+    <style>
+        .style-btn{
+        background-color: blue;
+        color: #FFFFFF;
+        padding: 10px;
+        border-radius: 10px;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        margin:10px
+        }
+    </style>
+{% block body %}
+
+{% endblock %}
+ 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}" />
+{% block script %}
+
+{% endblock %}
+
+</body>
+</html>
+
+
