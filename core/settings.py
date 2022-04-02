@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-8qb==8bahd=y^y5t-kj+2dep2tb40dc7!jhvnk+3hk1+vv@flr
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['buzzthebuzzer.herokuapp.com/','192.168.29.40','localhost']
+ALLOWED_HOSTS = ['buzzthebuzzer.herokuapp.com','192.168.29.40','localhost']
 
 
 # Application definition
@@ -160,13 +160,27 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Channels
 ASGI_APPLICATION = 'core.asgi.application'
+
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND':'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
-        },
-    },
+        'BACKEND': "channels.layers.InMemoryChannelLayer",
+    }
+    # 'default': {
+    #     'BACKEND':'channels_redis.core.RedisChannelLayer',
+    #     'CONFIG': {
+    #         "hosts": [('127.0.0.1', 6379)],
+    #     },
+    # },
 }
+
+# CACHES = {
+#     'default': {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+#         "OPIONS": {
+#             "CLIENT_CLASS": "django_redis.clent.DefaultClient"
+#         }
+#     }
+# }
 
 ACTIVE_ROOMS=[]
