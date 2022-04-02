@@ -16,6 +16,8 @@ from django.urls import re_path
 from buzzer.consumers import PlayerConsumer
 import buzzer.routing
 
+
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 
 application = ProtocolTypeRouter({
@@ -26,4 +28,5 @@ application = ProtocolTypeRouter({
         )
     )
 })
+
 
