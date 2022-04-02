@@ -1,0 +1,492 @@
+{% extends "base.html" %}
+{% load static %}
+{% block headtitle %}
+
+Buzzer Host
+{% endblock %}
+
+{% block body %}
+<style>
+    /* .upper_box {
+      background: yellow;
+      border: 4px solid white;
+      box-shadow: 0 0 1px rgba(0,0,0, .4);
+      text-align: center;
+    } */
+
+.big-btn {
+        width: 200px;
+        height: 100px;
+    }
+.style-btn{
+        background-color: blue;
+        color: #FFFFFF;
+        padding: 10px;
+        border-radius: 10px;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        margin:10px
+        }
+
+.upper_row{
+  width:100%;
+  height: 20%;
+  width: 70%;
+  margin-top: 3rem;
+}
+.lower_row{
+  width:100%;
+  height: 80%;
+  margin-top: 10px;
+  margin-bottom: 25px;
+  
+}
+.grid { 
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 7rem 7rem;
+    justify-content: center;
+    text-align: center;
+}
+.background-div {
+  min-height: 150vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+    url("{% static 'img/chess_15554-toad23r0ja.jpg' %}");
+    /* https://unsplash.com/photos/jbywvpa9vH8/download?force=true&w=1920"); */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 25px;
+}
+.flex-column-centered {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  text-align: center;
+}
+.upper-div-background {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8));
+    padding: 2em;
+    color: white;
+    border-radius: 25px;
+  }
+/* .lower-div-background {
+    background-image: linear-gradient(rgba(255, 140, 0, 0.8), rgba(0, 0, 0, 0.8));
+    padding: 2em;
+    color: black;
+  } */
+.lower-divided-div-background {
+    background-image: linear-gradient(rgba(255, 100, 100, 0.9), rgba(0, 0, 0, 0.6));
+    padding: 2em;
+    color: black;
+    width: 85%;
+    height: 100%;
+    margin:0px auto;
+    border-radius: 25px;
+  }
+  .center-content {
+    display: flex;
+    /* flex-direction: column; */
+    /* justify-content: center; */
+    align-items: center;
+    text-align: left;
+  }
+  .email {
+    display:inline;
+  }
+</style>
+<style>
+  .stopwatch {
+    display: inline-block;
+    background-color: white;
+    border: 1px solid #eee;
+    padding: 5px;
+    margin: 5px;
+  }
+  .stopwatch span {
+    font-weight: bold;
+    display: block;
+  }
+  .stopwatch a {
+    padding-right: 5px;
+    text-decoration: none;
+  }
+</style>
+{% csrf_token %}
+<div class="background-div  flex-column-centered">
+    <div class="upper_row upper-div-background">
+      <h2> Host</h2>
+    Room Code: {{room_code}}
+    <br>
+  
+    <form id ="reset_button" method="post" class="flex-column-centered">
+        {% csrf_token %}
+    <input class="login_btn big-btn style-btn" id="reset_btn" type="submit" value="Reset Buzzer">
+    </form>
+    <div class="basic stopwatch" style="color:black;text-align: left;"></div>
+    
+    </div>
+    
+    <hr class="dashed">
+    
+    <div class = "lower_row grid">
+     <div class="split left">
+    <div class="centered">
+      <div class="lower-divided-div-background">
+        <h3>Buzzed:</h3>
+    <h5>
+        <div id="buzzed_players_div" class = "center-content">
+            <ol id ='buzzed_players_list'>
+                <!-- <li><input type='text'></li> -->
+            </ol>
+        </div>
+    </h5>
+      <!-- <h2>Jane Flex</h2>
+      <p>Some text.</p> -->
+      </div>
+    </div>
+  </div>
+  
+  <div class="split right">
+    <div class="centered">
+      <div class="lower-divided-div-background">
+        <h3>Joined Players:</h3>
+        <h5>
+        <div id="all_players_div" class="center-content">
+            <ul id ='all_players_list'>
+                <!-- <li></li> -->
+            </ul>
+            
+        </div>
+        <div id="notification_container">
+        <div id="flash_notification"></div>
+        </div>
+        <div class="input-group mb-6" style="width: 80%; margin: auto;"><input type="email" name="email" id="email_id" class="form-control" placeholder="Enter email Id" value="example@example.com" size="30">
+        
+        <div class="input-group-append">
+          <button class="btn btn-dark" id="mail_button" onclick="send_mail()"> Email Points
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+          <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"></path>
+        </svg>
+        </button>
+      </div>
+    </div>
+    </h5>
+      <!-- <h2>John Doe</h2>
+      <p>Some text here too.</p> -->
+      </div>
+    </div>
+      </div>
+  </div> 
+  </div>
+
+  
+
+
+{% endblock %}
+
+ 
+{% block script %}
+<script>
+    var sendOnlyAtStart = 0
+    var loc= window.location
+    var resetButton = $("#reset_button")
+    var buzzed_players_list = $("#buzzed_players_list")
+    var all_players_list = $("#all_players_list")
+    var timer = 0
+    var resetCounter=0
+    var users_local_list = [];
+    var buzzed_local_list = [];
+    var channelName 
+    
+
+    var wsStart = 'ws://'
+    // if https => wss
+    if (loc.protocol == 'https:'){
+        wsStart = 'wss://'
+    }
+    var endpoint = wsStart + loc.host + "/ws/host/" + "{{room_code}}//"
+    var socket = new WebSocket(endpoint)
+    socket.onerror = function(e){
+        console.log("error", e)
+    }
+    socket.onopen = function(e){
+        console.log("open", e)
+        if (!Boolean(sendOnlyAtStart)){
+            var initialData = {
+                'sendOnlyAtStart': '1',
+                'room_code': '{{room_code}}'
+            }
+            buzzed_players_list.empty();
+            all_players_list.empty();
+            // socket.send(JSON.stringify(initialData))
+            sendOnlyAtStart = 1
+        }
+        
+        resetButton.submit(function(event){
+            event.preventDefault()
+            var resetData = {
+                'reset': "1"
+            }
+            buzzed_players_list.empty();
+            resetCounter=0;
+            socket.send(JSON.stringify(resetData))
+        })
+    }
+    socket.onmessage = function(e){
+        console.log("message recieved", e)
+        console.log(e.data)
+        var details = JSON.parse(JSON.parse(e.data).message)
+        // var details = JSON.parse(message.message)
+        console.log(details.info)
+        if (details.info == "add_new_player" && !users_local_list.includes(details.username)){
+          timer = new Date().getTime();
+            users_local_list.push(details.username);
+            all_players_list.append("<li class='all_players_li_class' id='"+details.channel_name+"'>"+ details.username+"  <span>&#8594;</span> <input type='button' class='btn btn-danger btn-sm' value='-5' onclick='add_points(\"points_"+details.username+ String(timer)+"\",\"-5\")'> <input type='text' class='form-control-sm' id='points_"+details.username+ String(timer)+"' value='0' size='1' readonly> <input type='button' class='btn btn-info btn-sm' value='+10' onclick='add_points(\"points_"+details.username+ String(timer)+"\",\"10\")'> <input type='button' class='btn btn-info btn-sm' value='+5' onclick='add_points(\"points_"+details.username+ String(timer)+"\",\"5\")'> <input class=' btn btn-danger btn-sm' type='button' data-toggle='tooltip' onclick='removePlayer(this, \""+details.username+"\")' data-placement='top' title='Delete' value='X'></input></li>")
+            var changedPlayerList = {
+                'info': 'changed_player_list',
+                'new_list' : document.getElementById("all_players_div").innerHTML
+            }
+            socket.send(JSON.stringify(changedPlayerList))
+            // <input type='text'>
+        }
+        else if (details.info == "buzzer_pressed"){
+            var date = new Date();
+            if (!buzzed_local_list.includes(details.username)){
+              buzzed_local_list.push(details.username);
+              if (resetCounter==0){
+                  timer = date.getTime();
+                  resetCounter = 1;
+                  buzzed_players_list.append("<li>"+details.username + "</li>")
+                  
+              }
+              else{
+              buzzed_players_list.append("<li>"+details.username + " &#8594; +" + String((new Date().getTime() - timer)/1000) + " sec</li>")
+              }
+              
+            }
+        }
+        else if (details.info == "reset"){
+            buzzed_players_list.empty();
+            buzzed_local_list = [];
+        }
+        
+    }
+    socket.onclose = function(e){
+        console.log("close", e)
+    //     console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+    // setTimeout(function() {
+    //   connect();
+    // }, 1000);
+    }
+    function removePlayer(instance, playerName) {
+      id = instance.closest(".all_players_li_class").id
+      instance.closest(".all_players_li_class").remove();
+      // users_local_list.remove(playerName);
+      for( var i = 0; i < users_local_list.length; i++){ 
+    
+        if ( users_local_list[i] === playerName) { 
+
+          users_local_list.splice(i, 1); 
+        }
+
+        }
+      var kickPlayer = {
+                'info': 'kickPlayer',
+                'room_code': '{{room_code}}',
+                'kick' : playerName,
+                'id': id
+            }
+      socket.send(JSON.stringify(kickPlayer))
+}
+</script>
+<script>
+  function add_points(input_id, add_point){
+    // var points = document.getElementById(input_id).value;
+    // console.log("value of input_id: "+String(input_id)+" , value of add_point: "+ String(add_point))
+    var points_box = document.getElementById(input_id);
+    var new_points = parseInt(points_box.value) + parseInt(add_point);
+    points_box.value = new_points;
+    // console.log("Set points: "+String(points_box) + ", calculated point:"+ new_points)
+
+
+  };
+  function customAlert(msg,duration)
+  {
+   var styler = document.getElementById("flash_notification");
+    styler.setAttribute("style","width:50%;height:auto;background-color:Orange;color:White;margin:auto");
+   styler.innerHTML = "<h7>"+msg+"</h7>";
+   setTimeout(function()
+   {
+     styler.parentNode.removeChild(styler);
+   },duration);
+   document.getElementById("notification_container").appendChild(styler);
+  }
+  function send_mail(){
+    var xhttp = new XMLHttpRequest();
+    var all_players_list = $("#all_players_list")
+    var send_mail_to = document.getElementById("email_id").value;
+    if (send_mail_to == "")
+    {
+      customAlert("Please Enter an email id!","4000");
+      return;
+    }
+    var email_list = {};
+    var csrf_token = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+    const list = document.getElementById("all_players_list").getElementsByTagName("li")
+    // var list = players
+    // console.log(list[0].textContent)
+    for (let i=0; i<list.length; i++ )
+    {
+      email_list[i] = String(list[i].textContent) + String(list[i].getElementsByClassName("form-control-sm")[0].value);
+    }
+    console.log(email_list)
+    xhttp.open("POST", "sendpointsmail/");
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    // console.log(JSON.stringify(email_list));
+    xhttp.setRequestHeader("X-CSRFToken", csrf_token);
+    // 'esc_sti_sai_ggn@list2.orange.com'
+    // avinash1.kumar@orange.com
+    customAlert("Sending mail!","2000");
+    {% comment %} xhttp.send("mailbody="+JSON.stringify(email_list)+"&sendto="+send_mail_to+"&info=sendmail"); {% endcomment %}
+    // console.log(this.responseText);
+    customAlert("Mail Sent!","2000");
+      }
+</script>
+<script>
+  window.onbeforeunload = function(){
+   // Do something
+    var email_list = {};
+    var csrf_token = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+    const list = document.getElementById("all_players_list").getElementsByTagName("li")
+    for (let i=0; i<list.length; i++ )
+    {
+      email_list[i] = String(list[i].textContent) + String(list[i].getElementsByClassName("form-control-sm")[0].value);
+    }
+
+      xhttp.open("POST", "savepoints/");
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.setRequestHeader("X-CSRFToken", csrf_token);
+    customAlert("Sending mail!","2000");
+    xhttp.send("gamepoints="+JSON.stringify(email_list)+"&info=savepoints"+"&room_code={{room_code}}");
+    
+}
+    window.addEventListener('beforeunload', (event) => {
+    
+        event.returnValue = 'Are you sure you want to leave? All data will be deleted.';
+    });
+</script>
+<script>
+
+
+var Stopwatch = function(elem, options) {
+  
+  var timer       = createTimer(),
+      startButton = createButton("start", start),
+      stopButton  = createButton("pause", stop),
+      resetButton = createButton("reset", reset),
+      offset,
+      clock,
+      interval;
+  
+  // default options
+  options = options || {};
+  options.delay = options.delay || 1;
+ 
+  // append elements     
+  elem.appendChild(timer);
+  elem.appendChild(startButton);
+  elem.appendChild(stopButton);
+  elem.appendChild(resetButton);
+  
+  // initialize
+  reset();
+ 
+  // On buzzer reset
+ var reset_stopwatch= document.getElementById("reset_btn");
+  reset_stopwatch.addEventListener("click", function(event) {
+    stop();    
+    reset();  
+    });
+  
+  // private functions
+  function createTimer() {
+    return document.createElement("span");
+  }
+  
+  function createButton(action, handler) {
+    var a = document.createElement("BUTTON");
+    // ("a");
+    // a.setAttribute("style", "color: white;");
+    if (action == "start"){
+      a.setAttribute("style", "background-color: #4CAF50;color: white;");
+    } 
+    else if (action == "pause"){
+      a.setAttribute("style", "background-color: #008CBA;color: white;");
+    }
+    else{
+      a.setAttribute("style", "background-color: #f44336;color: white;");
+    }
+    // }
+    // a.href = "#" + action;
+    a.innerHTML = action;
+    a.addEventListener("click", function(event) {
+      handler();
+      event.preventDefault();
+    });
+    return a;
+  }
+  
+  function start() {
+    if (!interval) {
+      offset   = Date.now();
+      interval = setInterval(update, options.delay);
+    }
+  }
+  
+  function stop() {
+    if (interval) {
+      clearInterval(interval);
+      interval = null;
+    }
+  }
+  
+  function reset() {
+    clock = 0;
+    render(0);
+  }
+  
+  function update() {
+    clock += delta();
+    render();
+  }
+  
+  function render() {
+    timer.innerHTML = clock/1000; 
+  }
+  
+  function delta() {
+    var now = Date.now(),
+        d   = now - offset;
+    
+    offset = now;
+    return d;
+  }
+  
+  // public API
+  this.start  = start;
+  this.stop   = stop;
+  this.reset  = reset;
+};
+
+
+// basic examples
+var elems = document.getElementsByClassName("basic");
+
+for (var i=0, len=elems.length; i<len; i++) {
+  new Stopwatch(elems[i]);
+}
+</script>
+
+{% endblock %}

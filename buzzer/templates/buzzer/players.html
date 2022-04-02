@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block headtitle %}
+
+Buzzer Home
+{% endblock %}
+
+{% block body %}
+<style>
+    .flex-column-centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.background-div {
+  min-height: 100vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+    url("{% static 'img/chess_15554-toad23r0ja.jpg' %}");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 25px;
+}
+  .login-comps {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+    padding: 2em;
+    color: white;
+    border-radius: 25px;
+  }
+.big-btn {
+    width: 200px;
+    height: 100px;
+    
+}  
+</style>
+<div class="background-div flex-column-centered">
+    <div class="login-comps">
+       <h2> Player Name : {{username}}
+        <p>
+        Room Joined : {{room_code}} </h2>
+        </p>
+        <br>
+        <form id ="buzzer_button" method="post" class="flex-column-centered">
+        {% csrf_token %}
+        <input class="big-btn style-btn" type="submit" value="Buzz"> <!-- onclick="buzzit()" -->
+        </form>
+        <br>
+    </div>
+</div>
+<!-- Buzzed:
+<br>
+<div id="buzzed_players_div">
+    <ul id ='buzzed_players_list'>
+        
+    </ul>
+</div>
+<br>
+Joined Players:<br>
+<div id="all_players_div">
+    <ul id ='all_players_list'>
+        
+    </ul>
+</div> -->
+
+{% endblock %}
+
+ 
+{% block script %}
+<script>
+    var sendOnlyAtStart = 0
+    var loc= window.location
+    var buzzerButton = $("#buzzer_button")
+    var buzzed_players_list = $("#buzzed_players_list")
+
+    var wsStart = 'ws://'
+    // if https => wss
+    if (loc.protocol == 'https:'){
+        wsStart = 'wss://'
+    }
+    var endpoint = wsStart + loc.host + "/ws/player/" + "{{room_code}}/{{username}}/"
+    console.log(endpoint)
+    var socket = new WebSocket(endpoint)
+    socket.onerror = function(e){
+        console.log("error", e)
+    }
+    socket.onopen = function(e){
+        console.log("open", e)
+        if (!Boolean(sendOnlyAtStart)){
+            var initialData = {
+                'sendOnlyAtStart': '1',
+                'username':'{{username}}',
+                'room_code': '{{room_code}}'
+            }
+            
+            socket.send(JSON.stringify(initialData))
+            sendOnlyAtStart = 1
+        }
+        buzzerButton.submit(function(event){
+            event.preventDefault()
+            var playerData = {
+                'username':'{{username}}',
+                'room_code': '{{room_code}}'
+            }
+            // socket.send("{#{username}#}-{#{room_code}#}")
+            socket.send(JSON.stringify(playerData))
+        })
+    }
+    socket.onmessage = function(e){
+        console.log("message", e)
+        console.log(e.data)
+        var details = JSON.parse(e.data)
+        console.log(details.username)
+        if (details.info == "add_new_player"){
+            // all_players_list.append("<li>"+ details.username +"</li>")
+            // <input type='text'>
+            // all_players_list.empty();
+        }
+        if (details.info == "buzzer_pressed"){
+            var date = new Date();
+            // buzzed_players_list.append("<li>"+ details.username + " -- " + date.toLocaleTimeString() + "</li>")
+            // <input type='text'>
+        }
+        else if (details.info == "reset"){
+            // buzzed_players_list.empty();
+        }
+        else if (details.info =="changed_player_list"){
+            // document.getElementById("all_players_div").innerHTML = details.new_list
+            // all_players_list.append("<li>"+ "List updated " +"</li>")
+        }
+    }
+    socket.onclose = function(e){
+        console.log("close", e)
+    //     console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+    // setTimeout(function() {
+    //   connect();
+    // }, 1000);
+    }
+</script>
+<script>
+    window.addEventListener('beforeunload', (event) => {
+        event.returnValue = 'Are you sure you want to leave? Your data on host will not be deleted.';
+    });
+</script>
+<!-- <script>
+    function buzzit(){
+        var buzzed_list = document.getElementById('buzzed_players');
+        buzzed_list.innerHTML = "{#{username}#}";
+    }
+</script> -->
+<!-- <script>
+    function setplayers(){
+        var buzzed_list = document.getElementById('players');
+        buzzed_list.innerHTML = "List of players";
+    }
+</script> -->
+
+{% endblock %}

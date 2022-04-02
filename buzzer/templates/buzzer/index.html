@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block headtitle %}
+
+Buzzer Home
+{% endblock %}
+
+{% block body %}
+<style>
+  
+
+
+* {
+  box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.flex-column-centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-div {
+  min-height: 100vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+    url("{% static 'img/playing_game_23411-cc7ay8h44u.jpg' %}");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  /* border-radius: 25px; */
+}
+  .login-comps {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+    padding: 2em;
+    color: white;
+  }
+
+  form {
+    padding: 20px 0;
+    position: relative;
+    z-index: 2;
+  }
+    input[type="text"],
+    input[type="password"] {
+      margin: 0.5rem auto;
+      background: rgba(80, 227, 194, 0.2);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 0.5em;
+      width: 400px;
+      outline: none;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      background-color: rgba(255, 255, 255, 0.329);
+      color: white;
+    }
+
+    input[type="submit"] {
+      background: black;
+      color: white;
+      border-radius: 5px;
+      margin: 0.5rem auto;
+      padding: 0.5rem;
+      width: 250px;
+      border: none;
+    }
+
+    input[type="submit"]:active {
+      transform: scale(0.95);
+    }
+
+    input[type="text"]::placeholder,
+    input[type="password"]::placeholder {
+      color: white;
+    }
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
+
+}
+
+</style>
+
+
+<div class="login-div flex-column-centered">
+    <div class="login-comps">
+        <h1 class="text-center">Create New Game</h1>
+      <form method="post" class="flex-column-centered" action="host/">
+        {% csrf_token %}
+        <input type="submit" value="Create New Game">
+      </form>
+      <h1 class="text-center">Join Existing Game</h1>
+      <form method="post" class="flex-column-centered" action="player/">
+        {% csrf_token %}
+        <input type="text" name="username" id="username" placeholder="Username" required>
+        <input type="text" name="room_code" id="room_code" placeholder="Room Code" required>
+        <input type="submit" value="Join">
+      </form>
+      <!-- <a href="#">
+        <p class="text-center">Forgot Password?</p> -->
+      <!-- </a> -->
+    </div>
+  </div>
+
+{% endblock %}
+
+ 
+{% block script %}
+
+{% endblock %}
+
