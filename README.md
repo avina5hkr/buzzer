@@ -17,7 +17,7 @@ Description
 
 This is a Django ASGI based buzzer Application for playing games.
 
-Users can use this buzzer app for playing other games on Screen Sharing. Multiple players can join one room. The host has the option to add, deduct points, reset the buzzer, kick out a player from room and mail the points to an email id `mail feature has been disabled now due to security concerns`
+Users can use this buzzer app for playing other games on Screen Sharing. Multiple players can join one room. The host has the option to add, deduct points, reset the buzzer, kick out a player from room and mail the points to an email id. `mail feature has been disabled now due to security concerns`
 
 <h4>HOST VIEW : </h4>
 
