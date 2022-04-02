@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-8qb==8bahd=y^y5t-kj+2dep2tb40dc7!jhvnk+3hk1+vv@flr'
+SECRET_KEY =  os.environ.get('DJANGO_SECRET_KEY','django-insecure-8qb==8bahd=y^y5t-kj+2dep2tb40dc7!jhvnk+3hk1+vv@flr')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'whitenoise',
     'channels',
     'buzzer'
 ]
@@ -89,18 +88,19 @@ DATABASES = {
         }
     }
 }
+# DATABASE TEMPLATES
 # DATABASES = {
 #     'mongo': {
 #         'ENGINE': 'djongo',
 #         'CLIENT': {
 #             "host": "mongodb://root:root@192.168.29.40:27017/",
-#             "name": "freecodeschool",
+#             "name": "dbname",
 #             # "authMechanism":"SCRAM-SHA-1" #For atlas cloud db
 #         }
 #     },
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'freecodeschool',
+#         'NAME': 'dbname',
 #         'USER': 'root',
 #         'PASSWORD': 'root',
 #         'HOST': '192.168.29.40',
@@ -108,7 +108,7 @@ DATABASES = {
 #         },
 #     'mysql': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'freecodeschool',
+#         'NAME': 'dbname',
 #         'USER': 'root',
 #         'PASSWORD': 'root',
 #         'HOST': '192.168.29.40',
@@ -170,6 +170,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': "channels.layers.InMemoryChannelLayer",
     }
+    # For Redis
     # 'default': {
     #     'BACKEND':'channels_redis.core.RedisChannelLayer',
     #     'CONFIG': {
@@ -178,6 +179,7 @@ CHANNEL_LAYERS = {
     # },
 }
 
+# For Caching with Redis
 # CACHES = {
 #     'default': {
 #         "BACKEND": "django_redis.cache.RedisCache",
