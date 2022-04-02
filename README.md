@@ -1,7 +1,11 @@
 <h1 align="center">Buzzer</h1>
 
 <p align="center">
+  <img src="https://img.shields.io/github/issues/avina5hkr/buzzer">
+  <img src="https://img.shields.io/github/forks/avina5hkr/buzzer">
   <img src="https://badges.frapsoft.com/os/v1/open-source.svg?v=103">
+  <img src="https://img.shields.io/github/stars/avina5hkr/buzzer">
+  <img src="https://img.shields.io/github/license/avina5hkr/buzzer">
 </p>
 <p align="center">
 <img src="./readme_assets/homeView.PNG" width="80%">
