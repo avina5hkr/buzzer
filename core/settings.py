@@ -26,6 +26,8 @@ SECRET_KEY = 'django-insecure-8qb==8bahd=y^y5t-kj+2dep2tb40dc7!jhvnk+3hk1+vv@flr
 DEBUG = True
 
 ALLOWED_HOSTS = ['buzzthebuzzer.herokuapp.com','192.168.29.40','localhost']
+CSRF_TRUSTED_ORIGINS = ['https://buzzthebuzzer.herokuapp.com']
+CSRF_COOKIE_DOMAIN = 'buzzthebuzzer.herokuapp.com'
 
 
 # Application definition
