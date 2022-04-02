@@ -46,7 +46,7 @@ Running on local machine
   ```  
 2. Create and activate a virtual environment (optional) <br>
   ```bash python
-  $ python venv venv
+  $ python -m venv venv
   $ source venv/bin/activate
   ```
 3. Install the python dependencies
