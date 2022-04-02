@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-8qb==8bahd=y^y5t-kj+2dep2tb40dc7!jhvnk+3hk1+vv@flr
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://buzzthebuzzer.herokuapp.com/','192.168.29.40','localhost']
+ALLOWED_HOSTS = ['buzzthebuzzer.herokuapp.com/','192.168.29.40','localhost']
 
 
 # Application definition
