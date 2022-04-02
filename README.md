@@ -7,7 +7,7 @@
 <img src="./readme_assets/homeView.PNG" width="80%">
 </p>
 <p>
-<h4 align="center"> For Live Demo Visit : https://pressbuzzer.herokuapp.com/ 
+<h4 align="center"> For Live Demo Visit : https://buzzthebuzzer.herokuapp.com/
 </h4>
 </p>
 
