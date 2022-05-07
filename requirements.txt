@@ -11,7 +11,7 @@ channels-redis==3.4.0
 constantly==15.1.0
 cryptography==36.0.2
 daphne==3.0.2
-Django==4.0.3
+Django==4.0.4
 hiredis==2.0.0
 hyperlink==21.0.0
 idna==3.3
@@ -24,7 +24,7 @@ pyOpenSSL==22.0.0
 service-identity==21.1.0
 six==1.16.0
 sqlparse==0.4.2
-Twisted==22.2.0
+Twisted==22.4.0
 txaio==22.2.1
 typing-extensions==4.1.1
 whitenoise==6.0.0
